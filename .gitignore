@@ -1,0 +1,44 @@
+# Directory to ignore
+git-localconfig-repo/
+
+# Build directory
+/target/
+/build/
+
+# Maven
+/.mvn/
+/mvnw
+/mvnw.cmd
+
+# Gradle
+/gradle/
+/gradlew
+/gradlew.bat
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+
+# Spring Boot specific
+application.properties
+application.yml
+
+# Logs
+*.log
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# IDE specific files
+*.swp
+*.swo
+
+# Mac specific
+*.DS_Store

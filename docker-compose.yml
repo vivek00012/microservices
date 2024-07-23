@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  config-server:
+    build: ./demo-config-server
+    ports:
+      - "8888:8888"
+    networks:
+      - spring-boot-network
+
+  naming-server:
+    build: ./naming-server
+    ports:
+      - "8761:8761"
+    environment:
+          - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
+    networks:
+      - spring-boot-network
+
+  currency-exchange:
+    build: ./currency-exchange-service
+    ports:
+      - "8000:8000"
+    environment:
+      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
+    depends_on:
+      - config-server
+      - naming-server
+    networks:
+      - spring-boot-network
+
+  currency-conversion:
+    build: ./currency-conversion-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
+    ports:
+      - "8100:8100"
+    depends_on:
+      - config-server
+      - naming-server
+      - currency-exchange
+    networks:
+      - spring-boot-network
+
+  api-gateway:
+    build: ./api-gateway
+    environment:
+      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
+    ports:
+      - "8765:8765"
+    depends_on:
+      - config-server
+      - naming-server
+      - currency-exchange
+      - currency-conversion
+    networks:
+      - spring-boot-network
+
+networks:
+  spring-boot-network:
+    driver: bridge
